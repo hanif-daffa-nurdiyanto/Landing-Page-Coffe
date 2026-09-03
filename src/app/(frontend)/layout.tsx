@@ -1,9 +1,20 @@
 import React from 'react'
+import { Inter, Playfair_Display } from 'next/font/google'
 import './styles.css'
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+})
+
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'El Koffee serves warm coffee moments with carefully crafted espresso drinks.',
+  title: 'El Koffee',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -11,7 +22,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body>
+      <body className={`${inter.variable} ${playfairDisplay.variable}`}>
         <main>{children}</main>
       </body>
     </html>

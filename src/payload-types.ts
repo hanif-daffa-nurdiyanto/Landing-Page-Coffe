@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'product-categories': ProductCategory;
+    products: Product;
+    testimonials: Testimonial;
+    articles: Article;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,17 +82,25 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'product-categories': ProductCategoriesSelect<false> | ProductCategoriesSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'landing-page': LandingPage;
+  };
+  globalsSelect: {
+    'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -122,7 +134,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -147,7 +159,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -163,10 +175,69 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories".
+ */
+export interface ProductCategory {
+  id: number;
+  _order?: string | null;
+  name: string;
+  slug: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  _order?: string | null;
+  name: string;
+  category: number | ProductCategory;
+  image: number | Media;
+  rating: number;
+  reviewCount: number;
+  description: string;
+  price: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  _order?: string | null;
+  name: string;
+  avatar: number | Media;
+  rating: number;
+  quote: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  author: string;
+  publishedDate: string;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -183,20 +254,36 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'product-categories';
+        value: number | ProductCategory;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'articles';
+        value: number | Article;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -206,10 +293,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -229,7 +316,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -277,6 +364,61 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-categories_select".
+ */
+export interface ProductCategoriesSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  slug?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  category?: T;
+  image?: T;
+  rating?: T;
+  reviewCount?: T;
+  description?: T;
+  price?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  avatar?: T;
+  rating?: T;
+  quote?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  author?: T;
+  publishedDate?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -314,6 +456,154 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page".
+ */
+export interface LandingPage {
+  id: number;
+  hero: {
+    heading: string;
+    description: string;
+    ctaLabel: string;
+    gallery?:
+      | {
+          image: number | Media;
+          alt: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  stats?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  productsSection: {
+    label: string;
+    heading: string;
+  };
+  about: {
+    label: string;
+    heading: string;
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    ctaLabel: string;
+    primaryImage?: (number | null) | Media;
+    secondaryImage?: (number | null) | Media;
+  };
+  testimonialSection: {
+    label: string;
+    heading: string;
+  };
+  blogSection: {
+    label: string;
+    heading: string;
+    ctaLabel: string;
+  };
+  footer: {
+    brandName: string;
+    description: string;
+    email: string;
+    phone: string;
+  };
+  whatsapp: {
+    /**
+     * Contoh: +6281234567890, 6281234567890, atau 081234567890.
+     */
+    phoneNumber: string;
+    /**
+     * Pesan ini menjadi pembuka. Daftar pesanan dari keranjang akan ditambahkan otomatis.
+     */
+    message: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "landing-page_select".
+ */
+export interface LandingPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        ctaLabel?: T;
+        gallery?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
+      };
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  productsSection?:
+    | T
+    | {
+        label?: T;
+        heading?: T;
+      };
+  about?:
+    | T
+    | {
+        label?: T;
+        heading?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        ctaLabel?: T;
+        primaryImage?: T;
+        secondaryImage?: T;
+      };
+  testimonialSection?:
+    | T
+    | {
+        label?: T;
+        heading?: T;
+      };
+  blogSection?:
+    | T
+    | {
+        label?: T;
+        heading?: T;
+        ctaLabel?: T;
+      };
+  footer?:
+    | T
+    | {
+        brandName?: T;
+        description?: T;
+        email?: T;
+        phone?: T;
+      };
+  whatsapp?:
+    | T
+    | {
+        phoneNumber?: T;
+        message?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

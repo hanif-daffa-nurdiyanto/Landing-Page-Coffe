@@ -5,8 +5,13 @@ export const Media: CollectionConfig = {
   access: {
     read: () => true,
   },
+  labels: {
+    plural: 'Media',
+    singular: 'Media',
+  },
   fields: [
     {
+      label: 'Teks Alternatif',
       name: 'alt',
       type: 'text',
       required: true,

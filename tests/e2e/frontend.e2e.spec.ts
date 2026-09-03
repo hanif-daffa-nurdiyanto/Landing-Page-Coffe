@@ -1,20 +1,23 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.describe('Frontend', () => {
-  let page: Page
-
-  test.beforeAll(async ({ browser }, testInfo) => {
-    const context = await browser.newContext()
-    page = await context.newPage()
-  })
-
   test('can go on homepage', async ({ page }) => {
     await page.goto('http://localhost:3000')
 
-    await expect(page).toHaveTitle(/Payload Blank Template/)
+    await expect(page).toHaveTitle(/El Koffee/)
 
-    const heading = page.locator('h1').first()
+    const orderButton = page.getByRole('link', { name: /pesan sekarang/i })
 
-    await expect(heading).toHaveText('Welcome to your new project.')
+    await expect(orderButton).toBeVisible()
+  })
+
+  test('can filter products by category', async ({ page }) => {
+    await page.goto('http://localhost:3000')
+
+    await page.getByRole('button', { name: 'Robusta' }).click()
+    await expect(page.getByText('Java Robusta')).toBeVisible()
+
+    await page.getByRole('button', { name: 'Arabica' }).click()
+    await expect(page.getByText('Gayo Arabica')).toBeVisible()
   })
 })
