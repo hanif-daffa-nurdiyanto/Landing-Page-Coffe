@@ -164,14 +164,14 @@ export function LandingProducts({ categories, products }: LandingProductsProps) 
         </div>
       ) : null}
 
-      <div className="mt-10 flex justify-center gap-1.5">
+      {/* <div className="mt-10 flex justify-center gap-1.5">
         {[0, 1, 2, 3].map((dot) => (
           <span
             className={`size-2 rounded-full ${dot === 0 ? 'bg-coffee-primary' : 'bg-coffee-black/25'}`}
             key={dot}
           />
         ))}
-      </div>
+      </div> */}
     </>
   )
 }

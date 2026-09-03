@@ -592,14 +592,14 @@ export default async function HomePage() {
           ))}
         </div>
 
-        <div className="mt-20 flex justify-center gap-1.5">
+        {/* <div className="mt-20 flex justify-center gap-1.5">
           {[0, 1, 2, 3].map((dot) => (
             <span
               className={`size-2 rounded-full ${dot === 0 ? 'bg-coffee-primary' : 'bg-coffee-black/25'}`}
               key={dot}
             />
           ))}
-        </div>
+        </div> */}
       </section>
 
       <section className="mx-auto max-w-site border-t border-coffee-muted px-6 py-20 md:px-20 md:py-24" id="blog">
