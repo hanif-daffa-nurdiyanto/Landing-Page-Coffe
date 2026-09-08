@@ -56,46 +56,43 @@ export function LandingProducts({ categories, products }: LandingProductsProps) 
         ))}
       </div>
 
-      <div className="mt-10 grid gap-8 md:grid-cols-4">
+      <div className="mt-10 grid gap-8 md:grid-cols-4 md:gap-x-8 md:gap-y-0">
         {visibleProducts.map((product) => (
           <article
-            className="transition duration-200 hover:-translate-y-1"
+            className="relative transition duration-200 hover:-translate-y-1 md:row-span-5 md:grid md:grid-rows-subgrid"
             key={product.name}
           >
             <button
-              className="block w-full cursor-pointer text-left outline-none focus-visible:ring-2 focus-visible:ring-coffee-primary/40"
+              aria-label={`Lihat detail ${product.name}`}
+              className="absolute inset-0 z-0 cursor-pointer rounded-tr-[36px] rounded-bl-[36px] outline-none focus-visible:ring-2 focus-visible:ring-coffee-primary/40"
               onClick={() => setSelectedProduct(product)}
               type="button"
-            >
-              <div className="relative h-[232px] overflow-hidden rounded-tr-[36px] rounded-bl-[36px]">
-                <Image
-                  alt={product.imageAlt}
-                  className="h-full w-full object-cover"
-                  fill
-                  sizes="(min-width: 768px) 25vw, 100vw"
-                  src={product.imageUrl}
-                />
-              </div>
+            />
 
-              <h3 className="mt-5 text-card-title text-coffee-black">{product.name}</h3>
-              <div className="mt-5 flex items-center gap-3">
-                <span className="text-xl leading-none text-coffee-star">★</span>
-                <span className="text-lg font-semibold text-coffee-black">{product.rating.toFixed(1)}</span>
-                <span className="text-sm text-coffee-black/45">({product.reviewCount} Reviews)</span>
-              </div>
-              <p className="mt-4 text-base leading-7 text-coffee-black/50">{product.description}</p>
-            </button>
+            <div className="relative h-[232px] overflow-hidden rounded-tr-[36px] rounded-bl-[36px]">
+              <Image
+                alt={product.imageAlt}
+                className="h-full w-full object-cover"
+                fill
+                sizes="(min-width: 768px) 25vw, 100vw"
+                src={product.imageUrl}
+              />
+            </div>
+
+            <h3 className="mt-5 text-card-title text-coffee-black">{product.name}</h3>
+            <div className="mt-5 flex items-center gap-3">
+              <span className="text-xl leading-none text-coffee-star">★</span>
+              <span className="text-lg font-semibold text-coffee-black">{product.rating.toFixed(1)}</span>
+              <span className="text-sm text-coffee-black/45">({product.reviewCount} Reviews)</span>
+            </div>
+            <p className="mt-4 text-base leading-7 text-coffee-black/50">{product.description}</p>
+
             <div className="mt-5 flex items-center justify-between gap-4">
               <p className="text-xl font-semibold text-coffee-black">{product.price}</p>
               <button
                 aria-label={`Tambah ${product.name} ke keranjang`}
-                className="cursor-pointer grid h-11 w-20 place-items-center rounded-md bg-coffee-primary text-4xl leading-none text-coffee-white transition duration-200 hover:bg-coffee-primary-light"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  addItem({ name: product.name, price: product.price })
-                }}
-                onMouseDown={(event) => event.stopPropagation()}
-                onPointerDown={(event) => event.stopPropagation()}
+                className="relative z-10 grid h-11 w-20 cursor-pointer place-items-center rounded-md bg-coffee-primary text-4xl leading-none text-coffee-white transition duration-200 hover:bg-coffee-primary-light"
+                onClick={() => addItem({ name: product.name, price: product.price })}
                 type="button"
               >
                 <Image alt="" height={23} src="/plus.svg" width={23} />
