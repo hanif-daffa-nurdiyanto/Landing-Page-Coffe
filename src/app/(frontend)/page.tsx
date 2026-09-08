@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { connection } from 'next/server'
 import { getPayload } from 'payload'
 
 import config from '@/payload.config'
@@ -357,6 +358,11 @@ function whatsappHref(phoneNumber?: string | null, message?: string | null) {
 }
 
 export default async function HomePage() {
+  // Payload uses a direct database connection, which Next.js cannot detect as
+  // request-time data automatically. Wait for an incoming request so Vercel
+  // does not keep serving the CMS data that was rendered during deployment.
+  await connection()
+
   const payload = await getPayload({ config })
 
   const [landingData, categoriesData, productsData, testimonialsData, articlesData] = await Promise.all([
